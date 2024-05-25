@@ -1,12 +1,12 @@
 
-# from django.urls import path
+from django.urls import path
 
-# from . import views
-#
+from . import views
 
 
-# urlpatterns = [
-#     path('', views.index),
-#     path('comments/', views.index)
-#
-# ]
+
+urlpatterns = [
+    path('', views.post_get),
+    path('comments/', views.comment)
+
+]
