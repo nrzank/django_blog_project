@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.post_get),
+    path('', views.index),
     path('<int:post_id>/', views.detail),
     path('comments/', views.comment)
 

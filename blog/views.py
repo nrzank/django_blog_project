@@ -1,20 +1,19 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.template import loader
+from django.shortcuts import render, get_object_or_404
 
 from blog.models import Post, Comment
 
 
 # Create your views here.
 
+def index(request, *args, **kwargs):
+    post_id = request.GET.get('post_id', 7)
+    post = get_object_or_404(Post, pk=post_id)
 
-def post_get(request, *args, **kwargs):
-    post_id = request.GET.get('post_id')
-    post = Post.objects.get(pk=post_id)
-    print(kwargs.GET)
-    print(post)
-    return HttpResponse(f'<h1>{post.title}</h1>'
-                        f'<p>{post.content}</p>')
+    context = {
+        'post': post,
+    }
+    return render(request, 'blog/index.html', context)
 
 
 
