@@ -5,8 +5,14 @@
     <title>Posts</title>
 </head>
 <body>
+<div>
     <h1>Posts:</h1>
-    <h3>{{post.title}}</h3>
-    <p>{{post.content}}</p>
+        <div>
+    {% for post in posts %}
+            <h3><a href="{%url 'post-detail' post.pk%}">{{ post.title }}</a></h3>
+    <p>{{ post.content }}</p>
+        </div>
+    {% endfor %}
+</div>
 </body>
 </html>
