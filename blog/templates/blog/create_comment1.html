@@ -8,7 +8,7 @@
 <div>
 <h1>Create the comment</h1>
     <div>
-        <form method="POST" action="{% url 'create_comment' %}">
+        <form method="POST" >
         {% csrf_token %}
         {{my_form.as_p}}
             <p>

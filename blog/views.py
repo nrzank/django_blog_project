@@ -55,7 +55,7 @@ def create_comment(request, *args, **kwargs):
             'my_form': CommentModelForms(),
         }
         return render(request=request,
-                      template_name='blog/create_comment.html',
+                      template_name='blog/create_comment1.html',
                       context=context
                       )
 
