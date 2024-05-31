@@ -66,7 +66,7 @@ def create_comment(request, *args, **kwargs):
             new_comment = form.save(commit=False)
             new_comment.author_id = 1
             new_comment.save()
-            return HttpResponse(f'<h1>Пост создан!</h1>'
+            return HttpResponse(f'<h1> Пост создан! </h1>'
                                 f'<h2>{new_comment.pk}: {new_comment.post}</h2>'
                                 f'<h2>{new_comment.text}</h2>')
     return HttpResponse(f'<h1>Метод не разрешен</h1>')
