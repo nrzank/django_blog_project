@@ -1,7 +1,8 @@
+from django import views
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 
-from blog.forms import CommentModelForms
+from blog.forms import CommentModelForms, PostModelForms
 from blog.models import Post, Comment
 
 
@@ -18,6 +19,21 @@ def index(request, *args, **kwargs):
                   )
 
 
+class PostView(views.View):
+
+
+    def get(self, request, *args, **kwargs):
+        posts = Post.objects.all()
+
+        context = {
+            'posts': posts,
+        }
+        return render(request=request,
+                      template_name='blog/index.html',
+                      context=context
+                      )
+
+
 def create_post(request, *args, **kwargs):
     print(f'Метод запроса: {request.method}')
 
@@ -26,23 +42,23 @@ def create_post(request, *args, **kwargs):
                       template_name='blog/create_post.html',
                       )
 
+
     elif request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        author_id = 1
 
-        if not title or not content:
-            return HttpResponse('<h1>Ошибка: Заголовок и содержание обязательны!</h1>', status=400)
+        form = PostModelForms(request.POST)
 
-        new_post = Post(title=title,
-                        content=content,
-                        author_id=author_id)
-        new_post.save()
+        if form.is_valid():
+            new_post = form.save(commit=False)
 
-        # return redirect(name='post-detail', new_post.pk)
-        return HttpResponse(f'<h1>Пост создан!</h1>'
-                            f'<h2>{new_post.pk}: {new_post.title}</h2>'
-                            f'<h2>{new_post.content}</h2>')
+            new_post.author_id = 1
+
+            new_post.save()
+
+            return HttpResponse(f'<h1> Комментарии создан! </h1>'
+
+                                f'<h2>{new_post.pk}: {new_post.post}</h2>'
+
+                                f'<h2>{new_post.text}</h2>')
 
     return HttpResponse(f'<h1>Метод не разрешен</h1>')
 
@@ -66,7 +82,7 @@ def create_comment(request, *args, **kwargs):
             new_comment = form.save(commit=False)
             new_comment.author_id = 1
             new_comment.save()
-            return HttpResponse(f'<h1> Пост создан! </h1>'
+            return HttpResponse(f'<h1> Комментарии создан! </h1>'
                                 f'<h2>{new_comment.pk}: {new_comment.post}</h2>'
                                 f'<h2>{new_comment.text}</h2>')
     return HttpResponse(f'<h1>Метод не разрешен</h1>')
